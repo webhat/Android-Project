@@ -111,7 +111,7 @@ public class SettingNotifyLayout extends DialogPreference{
 			if(layout.charAt(i) == '0')
 			{
 				if(layout.charAt(i+4) == '1')
-					result += "N    ";
+					result += "£N    ";
 			}
 			else if(layout.charAt(i) == '1')
 			{
