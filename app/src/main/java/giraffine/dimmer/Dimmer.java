@@ -37,9 +37,9 @@ public class Dimmer extends Activity {
 	};
 
 	public void checkDrawOverlayPermission() {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ) {
 			if (!Settings.canDrawOverlays(this)) {
-				Log.v("App", "Requesting Permission");
+				Log.v("App", "Requesting Overlay Permission");
 				Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
 						Uri.parse("package:" + getPackageName()));
 				startActivity(intent);
@@ -49,11 +49,12 @@ public class Dimmer extends Activity {
 
 	public void checkFileWritePermissions() {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-			if (!Settings.System.canWrite(this))
+			if (!Settings.System.canWrite(this)) {
 				Log.v("App", "Requesting Write Settings");
-			Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS,
-					Uri.parse("package:" + getPackageName()));
-			//startActivity(intent);
+				Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS,
+						Uri.parse("package:" + getPackageName()));
+				startActivity(intent);
+			}
 		}
 	}
 
@@ -89,7 +90,10 @@ public class Dimmer extends Activity {
 		{
 			checkDrawOverlayPermission();
 		}
-		startDimmerService(!showActivity);
+
+		if (Settings.canDrawOverlays(this)) {
+			startDimmerService(!showActivity);
+		}
 		
 		RelativeLayout background = (RelativeLayout)findViewById(R.id.relativelayout);
 		background.setOnTouchListener(new View.OnTouchListener() {

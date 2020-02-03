@@ -3,6 +3,7 @@ package giraffine.dimmer;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
+import android.os.Build;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -30,8 +31,8 @@ public class Mask {
 		mWindowParams = new WindowManager.LayoutParams();
 
 		mWindowParams.type =
-				android.os.Build.VERSION.SDK_INT >= 19?
-						WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY	// _OVERLAY can cover KK navigationbar, icon still bright
+				android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O?
+						WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY	// _OVERLAY can cover KK navigationbar, icon still bright
 						: WindowManager.LayoutParams.TYPE_PHONE;	// _ERROR can cover whole navigationbar in JB
 		mWindowParams.flags |= 
 				WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE 
@@ -55,7 +56,6 @@ public class Mask {
 		LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mMaskView = inflater.inflate(R.layout.mask_window, null);
 //		mMaskView.setAlpha((float)1);	// == android:alpha
-
 
 
 		mWindowManager.addView(mMaskView, mWindowParams);
