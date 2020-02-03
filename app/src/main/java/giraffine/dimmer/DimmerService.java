@@ -1,8 +1,5 @@
 package giraffine.dimmer;
 
-import java.util.List;
-
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.app.AlarmManager;
@@ -19,21 +16,22 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.ContentObserver;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Process;
 import android.os.SystemClock;
 import android.provider.Settings;
-//import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
+
+import java.util.List;
+
+//import android.support.v4.app.NotificationCompat;
 
 public class DimmerService extends Service implements LightSensor.EventCallback {
 
@@ -110,7 +108,7 @@ public class DimmerService extends Service implements LightSensor.EventCallback 
                 NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
                         "Dimmer Notification Channel",
                         NotificationManager.IMPORTANCE_DEFAULT);
-                
+
                 ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
             }
 
@@ -414,6 +412,8 @@ public class DimmerService extends Service implements LightSensor.EventCallback 
 
     public void resetLevel(boolean restoreBrighnessState, boolean removeNotification) {
         Log.e(Dimmer.TAG, "resetLevel() lastLevel: " + lastLevel);
+//        Log.e(Dimmer.TAG, "resetLevel() lastLevel: " + lastLevel +":"+ restoreBrighnessState +":"+ removeNotification);
+
 
         mIsPaused = !removeNotification;
         if (restoreBrighnessState) {
@@ -511,6 +511,7 @@ public class DimmerService extends Service implements LightSensor.EventCallback 
     }
 
     private void trySuicide() {
+        Log.e(Dimmer.TAG, "trySuicide()");
         // Only tf700t: If killed, next launch will NOT result in Activity/Service OnCreate.
         if (android.os.Build.DEVICE.equalsIgnoreCase("tf700t")) return;
         if (SettingsActivity.showSettings || Dimmer.showMainApp)
